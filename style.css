@@ -1,0 +1,922 @@
+/* Variáveis para fácil personalização - SEM MUDANÇAS AQUI */
+:root {
+    /* Light Theme Colors */
+    --primary-color: #4CAF50; /* Verde fresco e moderno */
+    --secondary-color: #2196F3; /* Azul vibrante para acentos */
+    --accent-color: #FFC107; /* Amarelo para detalhes ou destaques */
+    --background-light: #F8F9FA; /* Fundo claro e limpo */
+    --background-dark: #2C3E50; /* Fundo escuro para cabeçalho/rodapé, um tom de azul marinho */
+    --text-light: #ECF0F1; /* Texto claro para fundos escuros */
+    --text-dark: #34495E; /* Texto escuro principal, um tom de cinza escuro */
+    --card-background: #FFFFFF; /* Fundo dos cards */
+    --border-color: #E0E0E0; /* Borda suave */
+    --shadow-light: rgba(0, 0, 0, 0.08); /* Sombra suave */
+    --shadow-medium: rgba(0, 0, 0, 0.15); /* Sombra mais pronunciada */
+    --whatsapp-green: #25D366; /* Cor específica do WhatsApp */
+
+    /* Fontes e Transições */
+    --font-family-heading: 'Poppins', sans-serif;
+    --font-family-body: 'Open Sans', sans-serif;
+    --transition-duration: 0.3s;
+    --transition-fast: 0.2s; /* Mais rápido para micro-interações */
+
+
+    /* Filter para ícones em Light/Dark Mode - Revisado para valores diretos */
+    --icon-filter-primary: invert(20%) sepia(80%) saturate(2000%) hue-rotate(120deg) brightness(90%) contrast(90%);
+    --icon-filter-secondary: invert(15%) sepia(90%) saturate(3000%) hue-rotate(190deg) brightness(90%) contrast(90%);
+    /* Cor para o WhatsApp em modo claro (apenas o verde, sem muita manipulação para evitar erros) */
+    --icon-filter-whatsapp-light: invert(40%) sepia(90%) saturate(1000%) hue-rotate(80deg) brightness(90%) contrast(90%);
+
+    /* NOVO: Filtro para ícones do GitHub (preto para claro) */
+    --icon-filter-github-light: invert(16%) sepia(10%) saturate(2000%) hue-rotate(200deg) brightness(90%) contrast(90%);
+}
+
+/* Dark Theme Colors */
+body.dark-theme {
+    --primary-color: #66BB6A;
+    --secondary-color: #64B5F6;
+    --accent-color: #FFEB3B;
+    --background-light: #1A202C;
+    --background-dark: #2D3748;
+    --text-light: #E2E8F0;
+    --text-dark: #A0AEC0;
+    --card-background: #2D3748;
+    --border-color: #4A5568;
+    --shadow-light: rgba(0, 0, 0, 0.2);
+    --shadow-medium: rgba(0, 0, 0, 0.35);
+    /* NEW: Hero Section Specific Colors for Dark Theme */
+    --hero-bg-start: #0A1128; /* Deep, dark blue */
+    --hero-bg-end: #001F54;    /* Darker blue/purple */
+    --hero-blob-color-1: rgba(30, 144, 255, 0.18); /* Dodger blue subtle */
+    --hero-blob-color-2: rgba(138, 43, 226, 0.18); /* Blue violet subtle */
+
+    /* Filtros para ícones em Dark Mode - Valores diretos */
+    --icon-filter-primary: invert(60%) sepia(10%) saturate(1000%) hue-rotate(80deg) brightness(120%) contrast(100%);
+    --icon-filter-secondary: invert(70%) sepia(10%) saturate(2000%) hue-rotate(160deg) brightness(120%) contrast(100%);
+    /* Cor para o WhatsApp em modo escuro */
+    --icon-filter-whatsapp-dark: invert(60%) sepia(10%) saturate(1000%) hue-rotate(80deg) brightness(120%) contrast(100%);
+
+    /* NOVO: Filtro para ícones do GitHub (branco para escuro) */
+    --icon-filter-github-dark: invert(90%) sepia(10%) saturate(10%) hue-rotate(200deg) brightness(120%) contrast(100%);
+}
+
+/* Reset básico */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family-body);
+    line-height: 1.7;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-light);
+    color: var(--text-dark);
+    scroll-behavior: smooth;
+    transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family-heading);
+    color: var(--text-dark);
+    margin-top: 0.8em;
+    margin-bottom: 0.5em;
+    line-height: 1.2;
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color var(--transition-duration) ease;
+}
+
+a:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
+.section-padding {
+    padding: 80px 0;
+}
+
+/* Cabeçalho */
+#main-header {
+    background-color: var(--background-dark);
+    color: var(--text-light);
+    padding: 20px 0;
+    box-shadow: 0 4px 10px var(--shadow-medium);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: background-color var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+}
+
+#main-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* NOVO ESTILO PARA O LOGO TEXTUAL */
+.site-logo-text {
+    font-family: var(--font-family-heading);
+    font-size: 2.5em;
+    font-weight: 700;
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color var(--transition-duration) ease, transform var(--transition-duration) ease;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.site-logo-text:hover {
+    color: var(--primary-color);
+    transform: scale(1.02);
+}
+
+.senior-dev-span {
+    font-size: 0.5em;
+    opacity: 0.8;
+    background-color: var(--primary-color);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 400;
+    color: var(--text-light);
+    white-space: nowrap;
+}
+
+#main-header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 30px;
+}
+
+#main-header nav ul li a {
+    color: var(--text-light);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.05em;
+    position: relative;
+    transition: color var(--transition-duration) ease;
+}
+
+#main-header nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    left: 0;
+    bottom: -5px;
+    transition: width var(--transition-duration) ease;
+}
+
+#main-header nav ul li a:hover::after {
+    width: 100%;
+}
+
+#main-header nav ul li a.active {
+    color: var(--primary-color);
+}
+
+/* Menu Toggle para Mobile */
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 2em;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* Theme Toggle Button */
+.theme-toggle-container {
+    margin-left: 20px;
+}
+
+#theme-toggle {
+    background-color: var(--card-background);
+    color: var(--text-dark);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease, border-color var(--transition-duration) ease;
+    box-shadow: 0 2px 5px var(--shadow-light);
+}
+
+#theme-toggle:hover {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    border-color: var(--primary-color);
+}
+
+
+/* Seção Hero (Destaque) */
+#hero-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--text-light);
+    text-align: center;
+    padding: 120px 0;
+    position: relative;
+    overflow: hidden;
+    transition: background var(--transition-duration) ease;
+}
+
+#hero-section::before, #hero-section::after {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Ajustes para hero-section em dark theme */
+body.dark-theme #hero-section {
+    background: linear-gradient(135deg, var(--hero-bg-start) 0%, var(--hero-bg-end) 100%);
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48ZmlsdGVyIGlkPSJuIj48ZmVDb2xvck1hdHJpeCBpbi1rZXl3b3Jkcz0ic29mdC1saWdodCIgdmFsdWVzPSIxIDAgMCAwIDAgMCAxIDAgMCAwIDAgMCAxIDAgMCAwIDAgMCAuMzcgMCAwIi8+PGZlTm9pc2UgdHlwZT0idHVyYmVsZW5jZSIgYmFzZUZyZXF1ZW5jeT0iMC41IiBudW1OctavesPSIyIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PC9mZml0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0id2hpdGUiIGZpbHRlcj0idXJsKCNuKSIgb3BhY2l0eT0iMC4wNCIvPjwvc3ZnPg==');
+    background-size: cover;
+}
+
+/* Keyframe animations for tech glow */
+@keyframes tech-glow-1 {
+    0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.1; }
+    50% { transform: translate(-45%, -55%) scale(1.1); opacity: 0.25; }
+    100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.1; }
+}
+
+@keyframes tech-glow-2 {
+    0% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.25; }
+    50% { transform: translate(-55%, -45%) scale(0.9); opacity: 0.1; }
+    100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.25; }
+}
+
+/* Enhance pseudo-elements for a technological, animated background in dark theme */
+body.dark-theme #hero-section::before,
+body.dark-theme #hero-section::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.1;
+    z-index: 0;
+}
+
+body.dark-theme #hero-section::before {
+    width: 350px;
+    height: 350px;
+    top: 15%;
+    left: 10%;
+    background: radial-gradient(circle, var(--hero-blob-color-1) 0%, transparent 70%);
+    animation: tech-glow-1 18s ease-in-out infinite alternate;
+}
+
+body.dark-theme #hero-section::after {
+    width: 450px;
+    height: 450px;
+    bottom: 10%;
+    right: 5%;
+    background: radial-gradient(circle, var(--hero-blob-color-2) 0%, transparent 70%);
+    animation: tech-glow-2 20s ease-in-out infinite alternate;
+}
+
+#hero-section h2 {
+    font-size: 3.5em;
+    margin-bottom: 20px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text-light);
+    position: relative; z-index: 1;
+}
+
+#hero-section p {
+    font-size: 1.3em;
+    margin-bottom: 40px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--text-light);
+    position: relative; z-index: 1;
+}
+
+.btn {
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1em;
+    transition: all var(--transition-duration) ease;
+    box-shadow: 0 4px 10px var(--shadow-light);
+    position: relative; z-index: 1;
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: var(--background-dark);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: hsl(45, 100%, 45%);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 15px var(--shadow-medium);
+}
+
+/* Seções de Conteúdo (Sobre, Conhecimentos, Habilidades, Contato) */
+#about, #skills {
+    background-color: var(--card-background);
+    transition: background-color var(--transition-duration) ease;
+}
+
+#knowledge, #contact { /* Alterado #projects para #knowledge */
+    background-color: var(--background-light);
+    transition: background-color var(--transition-duration) ease;
+}
+
+/* NOVO: Estilo para a Galeria de Projetos */
+#portfolio-gallery {
+    background-color: var(--card-background); /* Fundo branco ou card em dark mode */
+    transition: background-color var(--transition-duration) ease;
+}
+
+.section-description {
+    text-align: center;
+    font-size: 1.1em;
+    max-width: 800px;
+    margin: -20px auto 60px auto; /* Ajusta margem para seções com descrições */
+    color: var(--text-dark);
+}
+
+
+#about .about-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+#about .profile-pic {
+    min-width: 250px;
+    height: 250px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 6px solid var(--primary-color);
+    box-shadow: 0 8px 20px var(--shadow-light);
+    transition: transform var(--transition-duration) ease, border-color var(--transition-duration) ease;
+}
+
+#about .profile-pic:hover {
+    transform: scale(1.03);
+}
+
+#about p {
+    flex: 1;
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: var(--text-dark);
+}
+
+
+/* Seção de Conhecimentos (antiga Projetos) */
+#knowledge .search-filter { /* Escopo para a seção knowledge */
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+#knowledge #knowledgeSearch { /* Escopo para o input */
+    width: 100%;
+    max-width: 600px;
+    padding: 12px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1.1em;
+    box-shadow: inset 0 1px 3px var(--shadow-light);
+    transition: border-color var(--transition-duration) ease, box-shadow var(--transition-duration) ease, background-color var(--transition-duration) ease, color var(--transition-duration) ease;
+    margin-bottom: 20px;
+    background-color: var(--card-background);
+    color: var(--text-dark);
+}
+
+#knowledge #knowledgeSearch:focus { /* Escopo para o focus do input */
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px hsla(122, 39%, 49%, 0.2);
+}
+
+#knowledge .filters { /* Escopo para os filtros */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+#knowledge .filter-btn { /* Escopo para os botões */
+    background-color: var(--background-light);
+    color: var(--text-dark);
+    border: 1px solid var(--border-color);
+    padding: 8px 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease, border-color var(--transition-duration) ease;
+    font-weight: 500;
+}
+
+#knowledge .filter-btn:hover { /* Escopo para o hover dos botões */
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    border-color: var(--primary-color);
+}
+
+#knowledge .filter-btn.active { /* Escopo para o active dos botões */
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 5px var(--shadow-light);
+}
+
+.knowledge-grid { /* Nova classe para a grade de conhecimentos */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 35px;
+}
+
+.knowledge-card { /* Nova classe para os cards de conhecimento */
+    background-color: var(--card-background);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 30px var(--shadow-light);
+    transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease, opacity var(--transition-duration) ease, background-color var(--transition-duration) ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.knowledge-card.hidden {
+    display: none;
+}
+
+.knowledge-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px var(--shadow-medium);
+}
+
+.knowledge-card h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+    font-size: 1.6em;
+    margin-bottom: 15px;
+}
+
+.knowledge-card p {
+    flex-grow: 1;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+}
+
+.knowledge-links {
+    margin-top: auto;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.knowledge-links a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color var(--transition-duration) ease, transform 0.2s ease;
+}
+
+.knowledge-links a:hover {
+    color: var(--primary-color);
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+
+/* SEÇÃO DE PROJETOS - GALERIA */
+.projects-grid { /* Reutiliza mas com novo contexto */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px; /* Aumentado o gap para mais espaço */
+}
+
+.project-card {
+    background-color: var(--background-light); /* Fundo levemente diferente para destaque */
+    border-radius: 12px;
+    box-shadow: 0 10px 30px var(--shadow-light);
+    transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease, background-color var(--transition-duration) ease;
+    overflow: hidden; /* Garante que a imagem arredondada não vaze */
+    display: flex;
+    flex-direction: column;
+}
+
+body.dark-theme .project-card {
+    background-color: var(--card-background); /* Cards escuros em dark theme */
+}
+
+.project-card:hover {
+    transform: translateY(-10px); /* Mais destaque no hover */
+    box-shadow: 0 18px 45px var(--shadow-medium); /* Sombra mais intensa */
+}
+
+.project-card img {
+    width: 100%;
+    height: 200px; /* Altura fixa para miniaturas */
+    object-fit: cover;
+    border-bottom: 1px solid var(--border-color);
+    transition: transform var(--transition-fast) ease;
+}
+
+.project-card:hover img {
+    transform: scale(1.05); /* Zoom na imagem no hover */
+}
+
+.project-card h3 {
+    color: var(--primary-color);
+    font-size: 1.5em;
+    margin: 25px 25px 10px 25px; /* Padding interno consistente */
+}
+
+.project-card p {
+    font-size: 0.98em;
+    line-height: 1.6;
+    flex-grow: 1; /* Para que todos os cards tenham a mesma altura */
+    margin: 0 25px 20px 25px; /* Padding interno consistente */
+    color: var(--text-dark);
+}
+
+.project-links {
+    padding: 0 25px 25px 25px; /* Padding no final do card */
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.project-links a {
+    display: inline-block;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--transition-fast) ease;
+    white-space: nowrap; /* Evita quebras de linha em botões pequenos */
+}
+
+.project-links .link-details {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    border: 1px solid var(--primary-color);
+}
+
+.project-links .link-details:hover {
+    background-color: transparent;
+    color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-light);
+}
+
+.project-links .link-github {
+    background-color: transparent;
+    color: var(--text-dark);
+    border: 1px solid var(--border-color);
+}
+
+body.dark-theme .project-links .link-github {
+    color: var(--text-light);
+    border-color: var(--border-color);
+}
+
+.project-links .link-github:hover {
+    background-color: var(--secondary-color);
+    color: var(--text-light);
+    border-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-light);
+}
+
+
+/* Seção de Habilidades */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 35px;
+}
+
+.skill-item {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 30px var(--shadow-light);
+    transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease, background-color var(--transition-duration) ease;
+}
+
+.skill-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px var(--shadow-medium);
+}
+
+.skill-item h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+.skill-item ul {
+    list-style: none;
+    padding: 0;
+}
+
+.skill-item ul li {
+    margin-bottom: 12px;
+    padding-left: 30px;
+    position: relative;
+    font-size: 1.05em;
+    color: var(--text-dark);
+}
+
+.skill-item ul li::before {
+    content: '✅';
+    color: var(--primary-color);
+    position: absolute;
+    left: 0;
+    font-size: 1.2em;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Seção de Contato */
+.contact-intro {
+    text-align: center;
+    font-size: 1.1em;
+    max-width: 700px;
+    margin: 0 auto 30px auto;
+    color: var(--text-dark);
+}
+
+.whatsapp-contact-area {
+    text-align: center;
+    margin-bottom: 40px;
+    background-color: var(--card-background);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px var(--shadow-light);
+    transition: background-color var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-whatsapp {
+    background-color: var(--whatsapp-green);
+    color: var(--text-light);
+    padding: 15px 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 50px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.btn-whatsapp:hover {
+    /* CORREÇÃO APLICADA AQUI: Valor hexadecimal direto para evitar erros de pré-processador/conversão */
+    background-color: #1FAD52; /* Um verde um pouco mais escuro que #25D366 */
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    text-decoration: none;
+}
+
+
+.social-links {
+    margin-top: 40px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.social-links a {
+    display: inline-block;
+    transition: transform 0.2s ease, opacity var(--transition-duration) ease;
+}
+
+.social-links a img {
+    width: 40px;
+    height: 40px;
+    /* Usando uma variável de filtro padrão, que será substituída abaixo */
+    filter: var(--icon-filter-primary);
+    transition: filter var(--transition-duration) ease;
+}
+
+.social-links a:hover {
+    transform: translateY(-5px);
+}
+
+.social-links a:hover img {
+    /* Ajustando para usar a variável secundária no hover */
+    filter: var(--icon-filter-secondary);
+}
+
+/* Aplica o filtro específico do WhatsApp */
+.social-links a img[alt="WhatsApp"] {
+    /* CORREÇÃO APLICADA AQUI: Usa a variável específica para o WhatsApp no tema claro */
+    filter: var(--icon-filter-whatsapp-light);
+}
+/* E no hover, pode voltar para o secundário ou manter o whatsapp */
+body.dark-theme .social-links a img[alt="WhatsApp"] {
+    /* CORREÇÃO APLICADA AQUI: Usa a variável específica para o WhatsApp no tema escuro */
+    filter: var(--icon-filter-whatsapp-dark); 
+}
+.social-links a:hover img[alt="WhatsApp"] {
+    filter: var(--icon-filter-whatsapp-light); /* Mantém verde WhatsApp no hover para tema claro */
+}
+body.dark-theme .social-links a:hover img[alt="WhatsApp"] {
+    filter: var(--icon-filter-whatsapp-dark); /* Mantém verde WhatsApp no hover para tema escuro */
+}
+
+/* NOVO: Filtros para o ícone do GitHub */
+.social-links a img[alt="GitHub"] {
+    filter: var(--icon-filter-github-light);
+}
+
+body.dark-theme .social-links a img[alt="GitHub"] {
+    filter: var(--icon-filter-github-dark);
+}
+
+.social-links a:hover img[alt="GitHub"] {
+    filter: var(--icon-filter-secondary); /* Pode usar a cor secundária no hover */
+}
+
+
+/* Rodapé */
+footer {
+    background-color: var(--background-dark);
+    color: var(--text-light);
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 60px;
+    font-size: 0.95em;
+    transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease;
+}
+
+/* Classes de Utilidade */
+.hidden {
+    display: none !important;
+}
+
+
+/* Responsividade Aprimorada */
+@media (max-width: 992px) {
+    .container {
+        padding: 0 20px;
+    }
+    .site-logo-text {
+        font-size: 2em;
+    }
+    .senior-dev-span {
+        font-size: 0.5em;
+    }
+    #hero-section h2 {
+        font-size: 2.8em;
+    }
+    #hero-section p {
+        font-size: 1.1em;
+    }
+    .section-padding {
+        padding: 60px 0;
+    }
+    .project-card, .skill-item, .knowledge-card { /* Adicionado knowledge-card */
+        padding: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    #main-header .container {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .site-logo-text {
+        font-size: 1.8em;
+        margin-bottom: 15px;
+    }
+
+    .senior-dev-span {
+        font-size: 0.5em;
+    }
+
+    #main-header nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: var(--background-dark);
+        position: relative;
+        left: 0;
+        padding: 15px 0;
+        box-shadow: 0 8px 15px var(--shadow-medium);
+        border-top: 1px solid rgba(255,255,255,0.1);
+        z-index: 999;
+    }
+
+    #main-header nav ul.active {
+        display: flex;
+    }
+
+    #main-header nav ul li {
+        margin: 10px 0;
+        text-align: center;
+    }
+
+    .nav-toggle {
+        display: block;
+        position: absolute;
+        right: 25px;
+        top: 25px;
+    }
+
+    .theme-toggle-container {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #about .about-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    #about .profile-pic {
+        margin-bottom: 30px;
+        min-width: 180px;
+        height: 180px;
+    }
+
+    .projects-grid, .skills-grid, .knowledge-grid { /* Adicionado knowledge-grid */
+        grid-template-columns: 1fr;
+    }
+
+    .whatsapp-contact-area {
+        padding: 20px;
+    }
+    .btn-whatsapp {
+        font-size: 1.1em;
+        padding: 12px 25px;
+    }
+
+    #knowledge #knowledgeSearch, #projectSearch { /* Ajustado para o novo ID */
+        padding: 10px 15px;
+        font-size: 0.95em;
+    }
+}
+
+@media (max-width: 480px) {
+    #hero-section h2 {
+        font-size: 2.2em;
+    }
+    #hero-section p {
+        font-size: 1em;
+    }
+    .btn {
+        padding: 12px 25px;
+        font-size: 1em;
+    }
+    .social-links a img {
+        width: 35px;
+        height: 35px;
+    }
+    .filters {
+        flex-direction: column;
+    }
+    .filter-btn {
+        width: 100%;
+    }
+    /* Ajuste final para o logo em telas muito pequenas */
+    .site-logo-text {
+        font-size: 1.5em;
+    }
+    .nav-toggle {
+        top: 20px;
+    }
+}
